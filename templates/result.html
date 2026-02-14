@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Prediction Result</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body>
+    <nav class="navbar py-2">
+        <div class="container-fluid">
+            <a class="navbar-brand" href="/">Cow Vision</a>
+                        <div class="nav-theme-toggle d-flex align-items-center">
+                            <div class="btn-group btn-group-sm theme-toggle" role="group" aria-label="Theme toggle">
+                                <button type="button" class="btn btn-outline-secondary" data-theme="cool"><span class="theme-swatch sw-cool"></span></button>
+                                <button type="button" class="btn btn-outline-secondary" data-theme="warm"><span class="theme-swatch sw-warm"></span></button>
+                                <button type="button" class="btn btn-outline-secondary" data-theme="neutral"><span class="theme-swatch sw-neutral"></span></button>
+                            </div>
+                            <div class="form-check form-switch ms-2">
+                                <input class="form-check-input" type="checkbox" id="darkToggle">
+                                <label class="form-check-label small text-muted" for="darkToggle">Dark</label>
+                            </div>
+                        </div>
+        </div>
+    </nav>
+
+    <div class="container py-5">
+        <div class="row justify-content-center">
+            <div class="col-md-6">
+                <div class="card shadow-sm">
+                    <div class="card-body text-center">
+                        <h3 class="card-title mb-3">Prediction Result</h3>
+
+                        <img src="/{{ image }}" alt="Uploaded image" class="img-fluid rounded mb-3 result-img">
+
+                        <h4 class="mb-1">Predicted Breed: <strong>{{ breed }}</strong></h4>
+                        <p class="text-muted mb-3">Confidence: <strong>{{ confidence }}%</strong></p>
+
+                        <div class="text-start mb-3">
+                            <h6>Top 3 Predictions</h6>
+                            <ul class="list-group">
+                                {% for name, prob in top3 %}
+                                    <li class="list-group-item d-flex justify-content-between align-items-center">
+                                        {{ name }}
+                                        <span class="badge bg-primary rounded-pill">{{ prob }}%</span>
+                                    </li>
+                                {% endfor %}
+                            </ul>
+                        </div>
+
+                        <a href="/" class="btn btn-outline-primary mt-3">Try Another Image</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+        <script>
+            // Apply saved theme on page load and wire navbar theme buttons
+            (function(){
+                const themeBtns = document.querySelectorAll('.theme-toggle button');
+                function applyThemeSite(theme){
+                    ['cv-theme-cool','cv-theme-warm','cv-theme-neutral'].forEach(c=>document.documentElement.classList.remove(c));
+                    document.documentElement.classList.add('cv-theme-'+theme);
+                    // toggle active state on any theme buttons present
+                    themeBtns.forEach(b=> b.classList.toggle('active', b.dataset.theme===theme));
+                }
+                themeBtns.forEach(btn => btn.addEventListener('click', ()=>{
+                    const t = btn.dataset.theme; applyThemeSite(t); localStorage.setItem('cv_theme', t);
+                }));
+                const saved = localStorage.getItem('cv_theme') || 'cool';
+                applyThemeSite(saved);
+                // dark mode support
+                const darkToggle = document.getElementById('darkToggle');
+                function applyDarkSite(enabled){
+                    if(enabled) document.documentElement.classList.add('dark-mode'); else document.documentElement.classList.remove('dark-mode');
+                    if(darkToggle) darkToggle.checked = enabled;
+                }
+                const savedDark = localStorage.getItem('cv_dark') === '1';
+                applyDarkSite(savedDark);
+                if(darkToggle) darkToggle.addEventListener('change', ()=>{ applyDarkSite(darkToggle.checked); localStorage.setItem('cv_dark', darkToggle.checked ? '1' : '0'); });
+            })();
+        </script>
+</body>
+</html>

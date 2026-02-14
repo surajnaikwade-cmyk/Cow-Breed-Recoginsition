@@ -1,0 +1,214 @@
+:root{
+    --primary:#4e73df;
+    --primary-600:#2e59d9;
+    --accent:#1cc88a;
+    --muted:#6b7280;
+    --card:#ffffff;
+    --bg-1: #f0f6ff;
+    --bg-2: #f0fff5;
+    --btn-grad-start: #4e73df;
+    --btn-grad-end: #2e59d9;
+    --nav-bg: linear-gradient(90deg, rgba(78,115,223,0.12), rgba(28,200,138,0.08));
+}
+
+body{
+    margin:0;
+    font-family: Inter, system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial;
+}
+
+.bg-gradient{
+    position:relative;
+    min-height:100vh;
+    overflow:hidden;
+    background: linear-gradient(120deg, rgba(78,115,223,0.06) 0%, rgba(28,200,138,0.05) 50%, rgba(255,255,255,0.02) 100%), linear-gradient(135deg, var(--bg-1) 0%, var(--bg-2) 100%);
+    background-size: 200% 200%, cover;
+    animation: gradientShift 12s ease infinite;
+}
+
+/* floating decorative blobs */
+.bg-gradient::before,
+.bg-gradient::after{
+    content:"";
+    position:absolute;
+    border-radius:50%;
+    filter:blur(20px);
+    opacity:1;
+    transform:translate3d(0,0,0);
+}
+.bg-gradient::before{
+    /* vivid indigo blob */
+    width:420px;height:420px;left:-120px;top:-140px;
+    background: radial-gradient(circle at 30% 30%, rgba(60,80,200,0.52), rgba(60,80,200,0.28) 48%, rgba(60,80,200,0.10) 72%);
+    animation: floatA 10s ease-in-out infinite;
+}
+.bg-gradient::after{
+    /* warm coral blob */
+    width:520px;height:520px;right:-160px;bottom:-180px;
+    background: radial-gradient(circle at 70% 70%, rgba(255,99,71,0.38), rgba(255,140,84,0.22) 45%, rgba(255,140,84,0.08) 72%);
+    animation: floatB 14s ease-in-out infinite;
+}
+
+@keyframes floatA{
+    0%{transform:translateY(0) translateX(0)}
+    50%{transform:translateY(18px) translateX(10px)}
+    100%{transform:translateY(0) translateX(0)}
+}
+@keyframes floatB{
+    0%{transform:translateY(0) translateX(0)}
+    50%{transform:translateY(-20px) translateX(-8px)}
+    100%{transform:translateY(0) translateX(0)}
+}
+
+@keyframes gradientShift{
+    0%{background-position:0% 50%}
+    50%{background-position:100% 50%}
+    100%{background-position:0% 50%}
+}
+
+.upload-card{
+    width:420px;
+    border-radius:12px;
+    background: var(--card);
+}
+
+/* Colorful styling applied only to the form card */
+.upload-card .card-body{
+    background: linear-gradient(180deg, rgba(78,115,223,0.06), rgba(255,99,71,0.03));
+    border: 1px solid rgba(78,115,223,0.08);
+    padding:1.5rem;
+    color: #0f1724;
+    transition:box-shadow .18s, transform .12s;
+}
+.upload-card:focus-within .card-body,
+.upload-card .card-body:focus-within{
+    box-shadow:0 10px 30px rgba(78,115,223,0.12);
+    transform:translateY(-2px);
+}
+.upload-card .dropzone-inner p{color:var(--primary);font-weight:600}
+.upload-card .dropzone-inner small{color:var(--muted)}
+
+/* Slightly stronger button contrast inside form */
+.upload-card .btn-primary{box-shadow:0 8px 22px rgba(46,89,217,0.12)}
+
+/* Theme: Cool (default) */
+.upload-card.theme-cool .card-body{
+    background: linear-gradient(180deg, rgba(78,115,223,0.08), rgba(78,115,223,0.02));
+    border-color: rgba(78,115,223,0.10);
+}
+.upload-card.theme-cool .btn-primary{background:linear-gradient(90deg,var(--btn-grad-start),var(--btn-grad-end))}
+
+/* Theme: Warm */
+.upload-card.theme-warm .card-body{
+    background: linear-gradient(180deg, rgba(255,140,84,0.09), rgba(255,99,71,0.035));
+    border-color: rgba(255,99,71,0.12);
+}
+.upload-card.theme-warm .btn-primary{background:linear-gradient(90deg, #ff7a5a, #ff4a2a);box-shadow:0 8px 22px rgba(255,90,60,0.12)}
+
+/* Theme: Neutral */
+.upload-card.theme-neutral .card-body{
+    background: linear-gradient(180deg, rgba(110,118,125,0.06), rgba(16,24,40,0.01));
+    border-color: rgba(16,24,40,0.06);
+}
+.upload-card.theme-neutral .btn-primary{background:linear-gradient(90deg,#64748b,#475569);box-shadow:0 8px 18px rgba(71,85,105,0.10)}
+
+/* theme swatches for buttons */
+.theme-swatch{display:inline-block;width:12px;height:12px;border-radius:50%;margin-right:8px;vertical-align:-1px;box-shadow:0 1px 4px rgba(16,24,40,0.08)}
+.sw-cool{background:linear-gradient(90deg,#4e73df,#2e59d9)}
+.sw-warm{background:linear-gradient(90deg,#ff7a5a,#ff4a2a)}
+.sw-neutral{background:linear-gradient(90deg,#94a3b8,#64748b)}
+
+/* navbar theme toggle layout */
+.nav-theme-toggle{display:flex;gap:8px;align-items:center}
+.nav-theme-toggle .btn{padding:0.28rem 0.5rem}
+
+/* body-level theme classes for site-wide styling */
+.cv-theme-cool .navbar{background:linear-gradient(90deg, rgba(78,115,223,0.12), rgba(28,200,138,0.06));}
+.cv-theme-warm .navbar{background:linear-gradient(90deg, rgba(255,140,84,0.12), rgba(255,99,71,0.06));}
+.cv-theme-neutral .navbar{background:linear-gradient(90deg, rgba(110,118,125,0.09), rgba(16,24,40,0.03));}
+
+/* badge / primary color overrides when theme is applied site-wide */
+.cv-theme-cool .badge.bg-primary{background:linear-gradient(90deg,var(--btn-grad-start),var(--btn-grad-end));}
+.cv-theme-warm .badge.bg-primary{background:linear-gradient(90deg,#ff7a5a,#ff4a2a);}
+.cv-theme-neutral .badge.bg-primary{background:linear-gradient(90deg,#64748b,#475569);}
+
+
+.preview-sm{
+    max-width:220px;
+    max-height:220px;
+}
+
+.result-img{
+    max-width:320px;
+    max-height:320px;
+}
+
+.sr-only{position: absolute !important; width:1px; height:1px; padding:0; margin:-1px; overflow:hidden; clip:rect(0,0,0,0); border:0}
+
+.card-title{font-weight:600}
+
+.list-group-item{font-size:0.95rem}
+
+/* small screens */
+@media (max-width:480px){
+    .upload-card{width:92vw}
+    .result-img{max-width:90vw}
+}
+
+/* Drag & drop zone */
+.dropzone{
+    border:2px dashed rgba(0,0,0,0.08);
+    border-radius:10px;
+    padding:28px 12px;
+    cursor:pointer;
+    background:#fff;
+    transition:box-shadow .15s, border-color .15s, background .15s;
+    position:relative;
+}
+.dropzone-inner{pointer-events:none}
+.dropzone .file-input{position:absolute;inset:0;opacity:0;cursor:pointer}
+.dropzone.dragover{border-color:var(--primary);box-shadow:0 6px 20px rgba(78,115,223,0.12);background:#f8fbff}
+
+/* Overlay spinner */
+.overlay{position:fixed;left:0;top:0;width:100%;height:100%;display:flex;flex-direction:column;align-items:center;justify-content:center;background:rgba(0,0,0,0.5);z-index:1080}
+
+/* Dark mode overrides */
+.dark-mode, .cv-theme-dark{--bg-1:#06070a; --bg-2:#0f1724; --card:#0b1220; --muted:#9ca3af; --primary:#7aa2ff;}
+.dark-mode body, .dark-mode .min-vh-100{background:linear-gradient(120deg,#071029 0%, #071219 100%)}
+.dark-mode .navbar{background:linear-gradient(90deg, rgba(6,10,16,0.6), rgba(2,6,12,0.4));}
+.dark-mode .card, .dark-mode .upload-card{background:var(--card);color:#e6eef8;border-color:rgba(255,255,255,0.03)}
+.dark-mode .card .card-body{background:transparent}
+.dark-mode .text-muted{color:var(--muted) !important}
+.dark-mode .btn-primary{color:#fff}
+.dark-mode .dropzone{background:linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));border-color:rgba(255,255,255,0.04)}
+.dark-mode .dropzone.dragover{box-shadow:0 6px 30px rgba(122,162,255,0.12);border-color:var(--primary)}
+.dark-mode .theme-swatch{box-shadow:0 1px 6px rgba(0,0,0,0.5)}
+.dark-mode .bg-gradient::before{background: radial-gradient(circle at 30% 30%, rgba(60,80,200,0.44), rgba(60,80,200,0.22) 48%, rgba(60,80,200,0.06) 72%)}
+.dark-mode .bg-gradient::after{background: radial-gradient(circle at 70% 70%, rgba(255,99,71,0.22), rgba(255,140,84,0.12) 45%, rgba(255,140,84,0.04) 72%)}
+.dark-mode .badge.bg-primary{background:linear-gradient(90deg,#334fcf,#2e59d9)}
+
+
+/* Navbar */
+.navbar{background:var(--nav-bg);box-shadow:0 2px 8px rgba(16,24,40,0.04)}
+.navbar .navbar-brand{font-weight:700;color:var(--primary)}
+
+/* Buttons */
+.btn-primary{
+    background:linear-gradient(90deg,var(--btn-grad-start),var(--btn-grad-end));
+    border:none;color:#fff;box-shadow:0 6px 18px rgba(46,89,217,0.14);
+}
+.btn-primary:active,.btn-primary:focus{box-shadow:0 3px 10px rgba(46,89,217,0.18)}
+.btn-outline-secondary{border-color:rgba(16,24,40,0.06);color:var(--muted)}
+
+/* Badges & list styles */
+.list-group-item .badge{background:linear-gradient(90deg,var(--btn-grad-start),var(--btn-grad-end));color:#fff}
+.badge.bg-primary{background:linear-gradient(90deg,var(--btn-grad-start),var(--btn-grad-end))}
+
+/* Card accent */
+.card{border-radius:12px}
+.card .card-body{padding:1.5rem}
+
+/* Small visual tweaks */
+.upload-card .card-title{color:var(--primary)}
+.text-muted{color:var(--muted) !important}
+
+
