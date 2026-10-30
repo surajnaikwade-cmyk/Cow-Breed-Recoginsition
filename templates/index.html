@@ -11,7 +11,8 @@
 <nav class="navbar py-2">
     <div class="container-fluid">
         <a class="navbar-brand" href="/">Cow Vision</a>
-        <div class="nav-theme-toggle">
+        <div class="d-flex align-items-center gap-3">
+            <div class="nav-theme-toggle">
                 <div class="btn-group btn-group-sm theme-toggle" role="group" aria-label="Theme toggle">
                     <button type="button" class="btn btn-outline-secondary" data-theme="cool"><span class="theme-swatch sw-cool"></span> Cool</button>
                     <button type="button" class="btn btn-outline-secondary" data-theme="warm"><span class="theme-swatch sw-warm"></span> Warm</button>
@@ -22,10 +23,39 @@
                     <label class="form-check-label small text-muted" for="darkToggle">Dark</label>
                 </div>
             </div>
+            <div class="navbar-auth">
+                {% if current_user.is_authenticated %}
+                    <span class="me-3 text-muted">Welcome, <strong>{{ current_user.username }}</strong></span>
+                    {% if current_user.is_admin %}
+                        <a href="{{ url_for('admin_dashboard') }}" class="btn btn-sm btn-warning me-2">
+                            <i class="bi bi-shield-check"></i> Admin Panel
+                        </a>
+                    {% endif %}
+                    <a href="{{ url_for('logout') }}" class="btn btn-sm btn-outline-danger">Logout</a>
+                {% else %}
+                    <a href="{{ url_for('login') }}" class="btn btn-sm btn-outline-primary me-2">Login</a>
+                    <a href="{{ url_for('signup') }}" class="btn btn-sm btn-primary">Sign Up</a>
+                {% endif %}
+            </div>
+        </div>
     </div>
 </nav>
 
 <div class="min-vh-100 d-flex align-items-center justify-content-center bg-gradient">
+    <!-- Flash Messages -->
+    {% with messages = get_flashed_messages(with_categories=true) %}
+        {% if messages %}
+            <div class="position-fixed top-0 end-0 p-3" style="z-index: 11">
+                {% for category, message in messages %}
+                    <div class="alert alert-{{ 'danger' if category == 'danger' else 'success' }} alert-dismissible fade show" role="alert">
+                        {{ message }}
+                        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                    </div>
+                {% endfor %}
+            </div>
+        {% endif %}
+    {% endwith %}
+
     <div class="card shadow-sm upload-card">
         <div class="card-body text-center">
             <h2 class="card-title mb-3">Cow Vision</h2>

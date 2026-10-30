@@ -1,0 +1,24 @@
+
+# Virtual Environment
+venv/
+.env/
+.venv/
+
+# Python Cache Files
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Database
+instance/users.db
+instance/*.db
+
+# Uploaded Images
+static/uploads/*
+
+# IDE Settings
+.vscode/
+
+# Operating System Files
+.DS_Store
+Thumbs.db
